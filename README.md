@@ -1,40 +1,59 @@
 **Telco Customer Churn Prediction**
 
-**1. Mục tiêu**
-Dự đoán khả năng khách hàng rời bỏ (**Churn**) dựa trên dữ liệu giao dịch và thông tin hợp đồng, từ đó hỗ trợ chiến lược giữ chân khách hàng hiệu quả.
+**A. Project Overview**
 
-**2. Dataset**
-- Nguồn: Kaggle – WA_Fn-UseC_-Telco-Customer-Churn.csv  
-- Số mẫu: 7,043 khách hàng  
-- Biến đầu vào: 30 (sau xử lý)  
-- Tỉ lệ churn: 26.6% khách hàng rời, 73.4% ở lại → dữ liệu mất cân bằng
+- This project predicts the likelihood of customer churn based on transaction and contract information, in order to support effective retention strategies.
 
-**3. Xử lý dữ liệu**
-- Chuyển `TotalCharges` từ object → float, xử lý 11 giá trị thiếu  
-- One-hot encoding cho các biến categorical (`drop_first=True`)  
-- Loại bỏ `customerID` vì không mang ý nghĩa dự đoán  
-- Chuẩn hóa dữ liệu numeric trước khi huấn luyện mô hình
+**B. Dataset Information**
 
-**4. Phân tích tương quan**
+- Source: Kaggle – WA_Fn-UseC_-Telco-Customer-Churn.csv
+- Churn rate: 26.6% churn vs. 73.4% retained → imbalanced dataset
+
+**C. Methodology**
+
+- Converted TotalCharges from object → float, handled 11 missing values.
+- Applied one-hot encoding for categorical variables (drop_first=True).
+- Dropped customerID as it has no predictive value.
+- Standardized numeric variables prior to model training.
+
+**D. Key Findings & Actionable Plans**
+
+_**Modeling Strategy**_
+
+- If the goal is to capture as many churn cases as possible (high Recall) → Logistic Regression tuned (Recall ≈ 79.7%).
+- If the goal is to balance Precision and Recall → Random Forest tuned (F1 = 0.6323, highest ROC-AUC).
+
+_**Key Findings**_
+
+- High monthly charges and Fiber optic internet users show higher churn risk.
+- Two-year contracts and longer tenure are strong retention drivers.
+- Customers using Electronic check payments should be investigated further for pain points in their payment experience.
+
+_**Actionable Plans**_
+
+- 
+
+**E. Appendix**
+
+**Correlation Analysis**
 Numeric (Point Biserial Correlation)
-| Feature        | r_pb    | Giải thích |
-|----------------|---------|------------|
-| tenure         | -0.354  | Khách hàng ở lâu → ít rời |
-| TotalCharges   | -0.199  | Giá trị thanh toán tích lũy thấp → dễ rời |
-| MonthlyCharges | +0.193  | Phí hàng tháng cao → dễ rời |
+| Feature        | r\_pb  | Interpretation                                    |
+| -------------- | ------ | ------------------------------------------------- |
+| tenure         | -0.354 | Longer tenure → less likely to churn              |
+| TotalCharges   | -0.199 | Lower accumulated payments → more likely to churn |
+| MonthlyCharges | +0.193 | Higher monthly fees → more likely to churn        |
 
 Categorical (Cramér’s V)
-| Feature                          | V       | Giải thích |
-|-----------------------------------|---------|------------|
-| InternetService_Fiber optic      | 0.307   | Liên quan mạnh tới churn |
-| Contract_Two year                 | 0.301   | Hợp đồng dài hạn → giảm churn |
-| PaymentMethod_Electronic check    | 0.301   | Liên quan mạnh tới churn |
+| Feature                         | V     | Interpretation                 |
+| ------------------------------- | ----- | ------------------------------ |
+| InternetService\_Fiber optic    | 0.307 | Strongly associated with churn |
+| Contract\_Two year              | 0.301 | Longer contracts reduce churn  |
+| PaymentMethod\_Electronic check | 0.301 | Strongly associated with churn |
 
-**6. Chiến lược lựa chọn model**
-- Muốn bắt hết churn (ưu tiên Recall) → Logistic Regression tuned (Recall ~ 79.7%)  
-- Muốn cân bằng Precision & Recall → Random Forest tuned (F1 = 0.6323, ROC-AUC cao nhất)
+**About Me**
 
-**7. Insight chính cho doanh nghiệp**
-- Phí hàng tháng cao và dùng Fiber optic → rủi ro rời cao  
-- Hợp đồng 2 năm và thời gian gắn bó lâu → giữ chân khách tốt  
-- Thanh toán Electronic check → cần xem lại trải nghiệm / quy trình thanh toán
+Hi, I'm Navin (Bao Vy) – an aspiring Data Analyst passionate about turning raw data into actionable business insights. I’m eager to contribute to data-driven decision making and help organizations translate analytics into business impact. For more details, please reach out at:
+
+🌐 LinkedIn: https://www.linkedin.com/in/navin826/
+
+📂 Portfolio: https://github.com/CallmeNavin/
