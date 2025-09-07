@@ -5,6 +5,7 @@
 **A. Project Overview**
 
 - This project predicts the likelihood of customer churn based on transaction and contract information, in order to support effective retention strategies.
+- Version 1 target: **Focus on feature importance, correlation analysis, and hyperparameter tuning**
 
 **B. Dataset Information**
 
@@ -32,10 +33,6 @@ _**Key Findings**_
 - Two-year contracts and longer tenure are strong retention drivers.
 - Customers using Electronic check payments should be investigated further for pain points in their payment experience.
 
-_**Actionable Plans**_
-
-- 
-
 **E. Appendix**
 
 **Correlation Analysis**
@@ -58,24 +55,27 @@ Categorical (Cramér’s V)
 **A. Project Overview**
 
 - This project predicts the likelihood of customer churn based on transaction and contract information, in order to support effective retention strategies.
+- Version 2 target: **Focus on end-to-end predictive pipeline (data prep → modeling → evaluation) with clean visualization.**
 
 **B. Methodology**
 
-- Check outliers: For 03 numeric columns --> 0% outliers
-- Predictive Analysis:
-  + Define target columns (y): churn
-    - One-hot encoding: to int
-  + Prepare input columns (x): Other columns, except customerID
-    - Comprehensive One-hot encoding:
-      + For 06 Binary columns - by maps: to int
-      + For 10 Category columns - by get_dummies: to bool
-    - Drop customerID columns cause it has no predictive value
-- Preparation for modelling
-  + Define x, y
-  + Train Split Test
-- Modeling (lần này không tune + More chart: Heatmap, Boxplot for more visual):
-  + Logistics Regression
+- Basic EDA
+- Actions before Basic EDA:
+  + Change dtype of "TotalCharges" column from object to numeric
+  + Fill 11 nulls in "TotalCharges" column
+- Outlier Check for 03 numeric columns: tenure, MonthlyCharges, TotalCharges → 0% outliers.
+- Predictive Analysis Setup:
+  + One-hot encoding:
+    - For Binary cols (by map): Partner, Dependents, PhoneService, PaperlessBilling, Churn, gender
+    - For others columns (by get_dummies): MultipleLines, InternetService, OnlineSecurity, OnlineBackup, DeviceProtection, TechSupport, StreamingTV, StreamingMovies, Contract, PaymentMethod
+  + Drop non-predictive value columns: customerID
+  + Last set-up stage:
+    - Define target column (y) & input columns (x)
+    - Train/Test Split
+- Modeling (no tuning applied in this version):
+  + Logistic Regression
   + Random Forest Classifier
+  + XGBoost Classifier.
 
 **C. Key Findings & Actionable Plans**
 
@@ -106,7 +106,7 @@ Categorical (Cramér’s V)
 
 → Trade-off: catching all churn cases requires accepting lower Precision, and vice versa. 
 
-→ The model is effective in identifying churn, but it leans toward maximizing Recall at the expense of Precision. This makes it suitable for businesses that prioritize retaining true churn customers, even if it means contacting many non-churn customers unnecessarily.
+→ Logistic Regression: Good at capturing churn (Recall = 0.81), but suffers from high false positives (Precision = 0.46). Suitable when business goal is not to miss any churn customers, even at the cost of contacting many non-churn ones.
 
 **I.2. Random Forest Classifier**
 
@@ -127,16 +127,15 @@ Categorical (Cramér’s V)
 
 ![ROC Curve & Precision Recall Curve](https://github.com/CallmeNavin/P4_Customer-Retention-Churn-Prediction/blob/main/Version%202/Visualization/ROC%20Curve%20%26%20Precision%20Recall%20Curve_RF.png)
 
-→ Logistic Regression: Good at capturing churn (Recall = 0.81), but suffers from high false positives (Precision = 0.46). Suitable when business goal is not to miss any churn customers, even at the cost of contacting many non-churn ones.
 → Random Forest: Improves Precision to 0.62 while maintaining reasonable Recall (0.48). Provides a more balanced trade-off, suitable when business aims to optimize retention cost and reduce false positives.
 
 **I.3. XGBoost**
 
-- Accuracy Score: 0.80
-- Precision Score: 0.65
-- Recall Score: 0.53
-- F1 Score: 0.59
-- ROC AUC Score: 0.84
+- Accuracy Score: 0.80 → More precise in predicting than Logistics Regression & Random Forest Classifier
+- Precision Score: 0.65 → Even better than Logistics Regression & Random Forest Classifier, lower costs
+- Recall Score: 0.53 → Even better than Logistics Regression & Random Forest Classifier, higher real churn catch
+- F1 Score: 0.59 → Better than Logistics Regression & Random Forest Classifier
+- ROC AUC Score: 0.84 → The best model performance in distinguishing churn vs. non-churn
 - Confusion Matrix:
 
 ![Confustion Matrix](https://github.com/CallmeNavin/P4_Customer-Retention-Churn-Prediction/blob/main/Version%202/Visualization/Confusion_Matrix_XGB.png)
@@ -149,14 +148,27 @@ Categorical (Cramér’s V)
 
 ![ROC Curve & Precision Recall Curve](https://github.com/CallmeNavin/P4_Customer-Retention-Churn-Prediction/blob/main/Version%202/Visualization/ROC%20Curve%20%26%20Precision%20Recall%20Curve_XGB.png)
 
+→ This best model will be used in actionable plans
+
 **_II. Actionable Plans_**
 
-- Dual-Model Action Plan: Paralell execute Logistic Regression & Random Forest
-  + Step 1 - Early Warning: Use Logistic Regression as a broad monitoring tool because of its high Recall (0.81). All customers flagged by this model are marked as 'At Risk – Monitor'. Send low-cost automated communications
-  + Step 2 - Targeted Campaign: Use Random Forest as a precision filter because of its higher Precision (0.62). Deploy personalized retention offers (discounts, loyalty points, service upgrades).
-  + Step 3 - Combine Monitor: Logistic Regression flags a wide pool of potential churn. Random Forest narrows it down to a focused segment for costly interventions.
+- Use XGB in prioritizing Targeting Customers
+  + Customers with probability > 0.7 → High Risk → give strong retention offers (discounts, premium support, loyalty rewards).
+  + Customers with 0.5 - 0.7 → Medium Risk → light-touch actions (follow-up calls, personalized messages).
+  + Customers with < 0.5 → Low Risk → standard monitoring.
+- Business Strategy Integration:
+  + Marketing: design personalized campaigns targeting “high churn probability” segment.
+  + Customer Service: proactively contact customers with medium-to-high churn risk.
+- Continuous Monitoring:
+  + Re-train model monthly/quarterly to capture new churn patterns.
+  + Track business KPIs: retention rate, campaign ROI, customer lifetime value.
 
-→ High coverage (don’t miss churn) thanks to Logistic Regression. High efficiency (fewer wasted offers) thanks to Random Forest.
+**VERSION 3**
+
+**A. Project Overview**
+
+- This project predicts the likelihood of customer churn based on transaction and contract information, in order to support effective retention strategies.
+- Version 3 target: **Advanced hyperparameter tuning and feature engineering**
 
 **About Me**
 
