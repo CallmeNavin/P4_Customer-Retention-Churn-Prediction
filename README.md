@@ -77,17 +77,17 @@ Categorical (Cramér’s V)
   + Logistics Regression
   + Random Forest Classifier
 
-**C. Model Evaluation, Key Findings & Actionable Plans**
+**C. Key Findings & Actionable Plans**
 
-**I. Logistics Regression**
+**I. Key Findings**
 
-**_I.1. Model Evaluation_**
+**I.1. Logistics Regression**
 
-- Accuracy Score: 0.72 → Good
-- Precision Score: 0.48 → Too low, below the average range (0.5). Many false positives.
-- Recall Score: 0.83 → High, few churn cases missed.
-- F1 Score: 0.61 → Moderate, showing imbalance between Precision and Recall.
-- ROC AUC Score: 0.83 → Good model performance in distinguishing churn vs. non-churn.
+- Accuracy Score: 0.69 → Good
+- Precision Score: 0.46 → Too low, below the average range (0.5). Many false positives.
+- Recall Score: 0.81 → High, few churn cases missed.
+- F1 Score: 0.59 → Moderate, showing imbalance between Precision and Recall.
+- ROC AUC Score: 0.81 → Good model performance in distinguishing churn vs. non-churn.
 - Confusion Matrix: 
 
 ![Confusion Matrix](https://github.com/CallmeNavin/P4_Customer-Retention-Churn-Prediction/blob/main/Version%202/Visualization/Confusion_Matrix_LR.png)
@@ -100,8 +100,6 @@ Categorical (Cramér’s V)
 
 ![ROC Curve & Precision Recall Curve](https://github.com/CallmeNavin/P4_Customer-Retention-Churn-Prediction/blob/main/Version%202/Visualization/ROC%20Curve%20%26%20Precision%20Recall%20Curve_LR.png)
 
-**_I.2. Key Findings_**
-
 - The model performs well in distinguishing churn vs. non-churn (AUC = 0.83).
   + High Recall (0.83) means the model captures most churn cases.
   + Low Precision (0.48) indicates many false positives (non-churn customers misclassified as churn).
@@ -110,19 +108,13 @@ Categorical (Cramér’s V)
 
 → The model is effective in identifying churn, but it leans toward maximizing Recall at the expense of Precision. This makes it suitable for businesses that prioritize retaining true churn customers, even if it means contacting many non-churn customers unnecessarily.
 
-**_I.3. Actionable Plans_**
+**I.2. Random Forest Classifier**
 
-- Adjust decision threshold by different thresholds (e.g. 0.3, 0.4, 0.6) to balance Precision and Recall according to business priorities.
-
-**II. Random Forest Classifier**
-
-**_II.1. Model Evaluation_**
-
-- Accuracy Score: 0.78
-- Precision Score: 0.62
-- Recall Score: 0.48
-- F1 ScoreF: 0.54
-- ROC AUC Score: 0.82
+- Accuracy Score: 0.78 → Good
+- Precision Score: 0.62 → Pretty good than Logistics Regression
+- Recall Score: 0.48 → Bắt churn không xịn bằng Logistics Regression
+- F1 Score: 0.54 → Moderate, but this model show more balance between Precision & Recall than Logistics Regression
+- ROC AUC Score: 0.82 → Good model performance in distinguishing churn vs. non-churn, even better than Logistics Regression's score 0.01
 - Confusion Matrix:
 
 ![Confusion Matrix](https://github.com/CallmeNavin/P4_Customer-Retention-Churn-Prediction/blob/main/Version%202/Visualization/Confusion_Matrix_RF.png)
@@ -134,6 +126,37 @@ Categorical (Cramér’s V)
 - ROC Curve & Precision Recall Curve:
 
 ![ROC Curve & Precision Recall Curve](https://github.com/CallmeNavin/P4_Customer-Retention-Churn-Prediction/blob/main/Version%202/Visualization/ROC%20Curve%20%26%20Precision%20Recall%20Curve_RF.png)
+
+→ Logistic Regression: Good at capturing churn (Recall = 0.81), but suffers from high false positives (Precision = 0.46). Suitable when business goal is not to miss any churn customers, even at the cost of contacting many non-churn ones.
+→ Random Forest: Improves Precision to 0.62 while maintaining reasonable Recall (0.48). Provides a more balanced trade-off, suitable when business aims to optimize retention cost and reduce false positives.
+
+**I.3. XGBoost**
+
+- Accuracy Score: 0.80
+- Precision Score: 0.65
+- Recall Score: 0.53
+- F1 Score: 0.59
+- ROC AUC Score: 0.84
+- Confusion Matrix:
+
+![Confustion Matrix](https://github.com/CallmeNavin/P4_Customer-Retention-Churn-Prediction/blob/main/Version%202/Visualization/Confusion_Matrix_XGB.png)
+
+- Classification Report:
+
+![Classification Report](https://github.com/CallmeNavin/P4_Customer-Retention-Churn-Prediction/blob/main/Version%202/Visualization/Classification%20Report_XGB.png)
+
+- ROC Curve & Precision Recall Curve:
+
+![ROC Curve & Precision Recall Curve](https://github.com/CallmeNavin/P4_Customer-Retention-Churn-Prediction/blob/main/Version%202/Visualization/ROC%20Curve%20%26%20Precision%20Recall%20Curve_XGB.png)
+
+**_II. Actionable Plans_**
+
+- Dual-Model Action Plan: Paralell execute Logistic Regression & Random Forest
+  + Step 1 - Early Warning: Use Logistic Regression as a broad monitoring tool because of its high Recall (0.81). All customers flagged by this model are marked as 'At Risk – Monitor'. Send low-cost automated communications
+  + Step 2 - Targeted Campaign: Use Random Forest as a precision filter because of its higher Precision (0.62). Deploy personalized retention offers (discounts, loyalty points, service upgrades).
+  + Step 3 - Combine Monitor: Logistic Regression flags a wide pool of potential churn. Random Forest narrows it down to a focused segment for costly interventions.
+
+→ High coverage (don’t miss churn) thanks to Logistic Regression. High efficiency (fewer wasted offers) thanks to Random Forest.
 
 **About Me**
 
