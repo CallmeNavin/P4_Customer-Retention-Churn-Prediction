@@ -7,6 +7,8 @@
 - This project predicts the likelihood of customer churn based on transaction and contract information, in order to support effective retention strategies.
 - Version 1 target: **Focus on feature importance, correlation analysis, and hyperparameter tuning**
 
+![Point Biserial Correlation with Churn Yes](https://github.com/CallmeNavin/P4_Customer-Retention-Churn-Prediction/blob/main/Version%201/Visualization/image1.png)
+
 **B. Dataset Information**
 
 - Source: Kaggle – WA_Fn-UseC_-Telco-Customer-Churn.csv
@@ -49,6 +51,8 @@ Categorical (Cramér’s V)
 | InternetService\_Fiber optic    | 0.307 | Strongly associated with churn |
 | Contract\_Two year              | 0.301 | Longer contracts reduce churn  |
 | PaymentMethod\_Electronic check | 0.301 | Strongly associated with churn |
+
+![Model Efficiency Comparision](https://github.com/CallmeNavin/P4_Customer-Retention-Churn-Prediction/blob/main/Version%201/Visualization/image2.png)
 
 **VERSION 2**
 
