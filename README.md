@@ -70,22 +70,25 @@ Categorical (Cramér’s V)
       + For 06 Binary columns - by maps: to int
       + For 10 Category columns - by get_dummies: to bool
     - Drop customerID columns cause it has no predictive value
+- Preparation for modelling
+  + Define x, y
   + Train Split Test
-  + Modeling
-  + Model Evaluation (More chart: Heatmap, Boxplot for more visual)
+- Modeling (lần này không tune + More chart: Heatmap, Boxplot for more visual):
+  + Logistics Regression
+  + Random Forest Classifier
 
-**C. Key Findings & Actionable Plans**
+**C. Model Evaluation, Key Findings & Actionable Plans**
 
-**_Key Findings_**
+**I. Logistics Regression**
 
-**1. Logistics Regression**
+**_I.1. Model Evaluation_**
 
-- Accuracy Score_LR: 0.72
-- Precision Score_LR: 0.48 --> Too low, below the average range 0.5
-- Recall Score_LR: 0.83
-- F1 Score_LR: 0.61
-- ROC AUC Score_LR: 0.83 --> Model distinct churn/non churn good
-- Confusion Matrix_LR:
+- Accuracy Score: 0.72 → Good
+- Precision Score: 0.48 → Too low, below the average range (0.5). Many false positives.
+- Recall Score: 0.83 → High, few churn cases missed.
+- F1 Score: 0.61 → Moderate, showing imbalance between Precision and Recall.
+- ROC AUC Score: 0.83 → Good model performance in distinguishing churn vs. non-churn.
+- Confusion Matrix: 
 
 ![Confusion Matrix](https://github.com/CallmeNavin/P4_Customer-Retention-Churn-Prediction/blob/main/Version%202/Visualization/Confusion_Matrix_LR.png)
 
@@ -96,6 +99,41 @@ Categorical (Cramér’s V)
 - ROC Curve & Precision Recall Curve_LR:
 
 ![ROC Curve & Precision Recall Curve](https://github.com/CallmeNavin/P4_Customer-Retention-Churn-Prediction/blob/main/Version%202/Visualization/ROC%20Curve%20%26%20Precision%20Recall%20Curve_LR.png)
+
+**_I.2. Key Findings_**
+
+- The model performs well in distinguishing churn vs. non-churn (AUC = 0.83).
+  + High Recall (0.83) means the model captures most churn cases.
+  + Low Precision (0.48) indicates many false positives (non-churn customers misclassified as churn).
+
+→ Trade-off: catching all churn cases requires accepting lower Precision, and vice versa. 
+
+→ The model is effective in identifying churn, but it leans toward maximizing Recall at the expense of Precision. This makes it suitable for businesses that prioritize retaining true churn customers, even if it means contacting many non-churn customers unnecessarily.
+
+**_I.3. Actionable Plans_**
+
+- Adjust decision threshold by different thresholds (e.g. 0.3, 0.4, 0.6) to balance Precision and Recall according to business priorities.
+
+**II. Random Forest Classifier**
+
+**_II.1. Model Evaluation_**
+
+- Accuracy Score: 0.78
+- Precision Score: 0.62
+- Recall Score: 0.48
+- F1 ScoreF: 0.54
+- ROC AUC Score: 0.82
+- Confusion Matrix:
+
+![Confusion Matrix](https://github.com/CallmeNavin/P4_Customer-Retention-Churn-Prediction/blob/main/Version%202/Visualization/Confusion_Matrix_RF.png)
+
+- Classification Report:
+
+![Classification Report](https://github.com/CallmeNavin/P4_Customer-Retention-Churn-Prediction/blob/main/Version%202/Visualization/Classification%20Report_RF.png)
+
+- ROC Curve & Precision Recall Curve:
+
+![ROC Curve & Precision Recall Curve](https://github.com/CallmeNavin/P4_Customer-Retention-Churn-Prediction/blob/main/Version%202/Visualization/ROC%20Curve%20%26%20Precision%20Recall%20Curve_RF.png)
 
 **About Me**
 
