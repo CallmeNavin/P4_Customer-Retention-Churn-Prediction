@@ -1,5 +1,7 @@
 **Telco Customer Churn Prediction**
 
+**VERSION 1**
+
 **A. Project Overview**
 
 - This project predicts the likelihood of customer churn based on transaction and contract information, in order to support effective retention strategies.
@@ -11,8 +13,9 @@
 
 **C. Methodology**
 
-- Converted TotalCharges from object → float, handled 11 missing values.
-- Applied one-hot encoding for categorical variables (drop_first=True).
+- Basic EDA: shape, info, isnull, describe
+- Converted TotalCharges from object → numeric & handled 11 missing values by fill = 0
+- Applied one-hot encoding for categorical variables (drop_first=True)
 - Dropped customerID as it has no predictive value.
 - Standardized numeric variables prior to model training.
 
@@ -49,6 +52,50 @@ Categorical (Cramér’s V)
 | InternetService\_Fiber optic    | 0.307 | Strongly associated with churn |
 | Contract\_Two year              | 0.301 | Longer contracts reduce churn  |
 | PaymentMethod\_Electronic check | 0.301 | Strongly associated with churn |
+
+**VERSION 2**
+
+**A. Project Overview**
+
+- This project predicts the likelihood of customer churn based on transaction and contract information, in order to support effective retention strategies.
+
+**B. Methodology**
+
+- Check outliers: For 03 numeric columns --> 0% outliers
+- Predictive Analysis:
+  + Define target columns (y): churn
+    - One-hot encoding: to int
+  + Prepare input columns (x): Other columns, except customerID
+    - Comprehensive One-hot encoding:
+      + For 06 Binary columns - by maps: to int
+      + For 10 Category columns - by get_dummies: to bool
+    - Drop customerID columns cause it has no predictive value
+  + Train Split Test
+  + Modeling
+  + Model Evaluation (More chart: Heatmap, Boxplot for more visual)
+
+**C. Key Findings & Actionable Plans**
+
+**_Key Findings_**
+
+**1. Logistics Regression**
+
+- Accuracy Score_LR: 0.72
+- Precision Score_LR: 0.48 --> Too low, below the average range 0.5
+- Recall Score_LR: 0.83
+- F1 Score_LR: 0.61
+- ROC AUC Score_LR: 0.83 --> Model distinct churn/non churn good
+- Confusion Matrix_LR:
+
+![Confusion Matrix](https://github.com/CallmeNavin/P4_Customer-Retention-Churn-Prediction/blob/main/Version%202/Visualization/Confusion_Matrix_LR.png)
+
+- Classification Report_LR:
+
+![Classification Report_LR](https://github.com/CallmeNavin/P4_Customer-Retention-Churn-Prediction/blob/main/Version%202/Visualization/Classification%20Report_LR.png)
+
+- ROC Curve & Precision Recall Curve_LR:
+
+![ROC Curve & Precision Recall Curve](https://github.com/CallmeNavin/P4_Customer-Retention-Churn-Prediction/blob/main/Version%202/Visualization/ROC%20Curve%20%26%20Precision%20Recall%20Curve_LR.png)
 
 **About Me**
 
