@@ -64,7 +64,7 @@ Categorical (Cramér’s V)
 **B. Methodology**
 
 - Basic EDA
-- Actions before Basic EDA:
+- Actions after Basic EDA:
   + Change dtype of "TotalCharges" column from object to numeric
   + Fill 11 nulls in "TotalCharges" column
 - Outlier Check for 03 numeric columns: tenure, MonthlyCharges, TotalCharges → 0% outliers.
